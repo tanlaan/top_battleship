@@ -1,4 +1,4 @@
-const Ship = (name, length) => {
+const Ship = (length) => {
     const hits = new Array(length)
 
     const hit = (place) => {
@@ -9,7 +9,6 @@ const Ship = (name, length) => {
     }
 
     return {
-        name,
         length,
         hits,
         hit,
