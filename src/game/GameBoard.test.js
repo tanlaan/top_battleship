@@ -45,3 +45,13 @@ test('Placing a ship on a playBoard adds it to the ships array', () => {
     board.placeShip(board.playerPlayBoard, board.playerShips, 3, 'A1')
     expect(board.playerShips[0]).toBeDefined()
 })
+
+test("Placing a ship on a playBoard adds more than just the initial coordinate", () => {
+    board.placeShip(board.playerPlayBoard, board.playerShips, 3, 'A1')
+    expect(board.playerPlayBoard['A2']).toBeDefined()
+})
+
+test("Placing a ship on the playBoard works in the vertical orientation as well", () => {
+    board.placeShip(board.playerPlayBoard, board.playerShips, 3, 'A1', 'V')
+    expect(board.playerPlayBoard['B1']).toBeDefined()
+})
