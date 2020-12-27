@@ -1,9 +1,11 @@
 import Ship from './Ship'
 
 const GameBoard = () =>{
-    const placeShip = (playBoard, ships, length, coordinate, orientation='H') => {
-        const x = coordinate.slice(0, 1)
-        const y = coordinate.slice(1)
+    const playBoards = [{}, {}]
+    const moveBoards = [initBoard(), initBoard()]
+    const ships =[[], []]
+    const placeShip = (player, length, coordinate, orientation='H') => {
+        const [x, y] = coordinate.split('')
         const newShip = Ship(length)
         const positions = {}
 
@@ -12,25 +14,68 @@ const GameBoard = () =>{
 
         // Calculate all the coordinates it will take up
         for ( let i = 0; i < length; i++ ) {
-            if (orientation === 'H') {
+            if (orientation === 'V') {
 
-                // We are increasing horizontally
+                // We are 'increasing' Vertically
                 positions[x + (Number(y) + i)] = () => newShip.hit(i)
             } else {
 
-                // We are increasing vertically
+                // We are 'increasing' horizontally
                 // So coerce a new letter
                 const newX = String.fromCharCode(x.charCodeAt(0) + i )
                 positions[newX + y] = () => newShip.hit(i)
             }
         }
-        if (!isValidPlay(positions, playBoard)) return false 
+        
+        // Verify no overlapping plays
+        if (!isValidPlay(positions, playBoards[player])) return false 
 
         // Integrate new ship positions into playBoard
-        Object.assign(playBoard, positions)
-        ships.push(newShip)
+        Object.assign(playBoards[player], positions)
+        
+        // Add ship to player's ship list
+        ships[player].push(newShip)
+
         // Success!
         return true
+    }
+    
+    const receiveAttack = (player, coordinate) => {
+        const hit = 'X'
+        const miss = '/'
+        const opponent = player === 0 ? 1 : 0
+        const [x, y] = coordinateToIntegers(coordinate)
+        
+
+        // Check moveBoard if already played - return false
+        if (coordinate in moveBoards[player]) return false
+
+        // Check opponents playBoard for hit
+        if (coordinate in playBoards[opponent]) {
+
+            // Run hit() on opponent's ship
+            playBoards[opponent][coordinate]()
+
+            // Adding hit to moveBoard
+            moveBoards[player][x][y] = hit
+        } else {
+            moveBoards[player][x][y] = miss
+        }
+
+        return true
+    }
+
+    const isWinner = () => {
+        for (let i = 0; i < ships.length; i++) {
+            let allSunk = true
+            for (let j = 0; j < ships[i].length; j++ ) {
+                if (!ships[i][j].isSunk()) {
+                    allSunk = false
+                }
+            }
+            if (allSunk) return true
+        }
+        return false
     }
 
     const isValidMove = (x, y, length) => {
@@ -50,21 +95,21 @@ const GameBoard = () =>{
         return true
     }
 
-    const playerPlayBoard = {}
-    const computerPlayBoard = {}
-    const playerMoveBoard = initBoard()
-    const computerMoveBoard = initBoard()
-    const playerShips = []
-    const computerShips = []
+    const coordinateToIntegers = (coordinate) => {
+        // Take in string form, convert to array integers
+        let [x, y] = coordinate.split('')
+        x = x.charCodeAt(0) - 'A'.charCodeAt(0)
+        y = Number(y) - 1
+        return [x, y]
+    }
     
     return {
+        isWinner,
+        receiveAttack,
         placeShip,
-        playerPlayBoard,
-        computerPlayBoard,
-        playerMoveBoard,
-        computerMoveBoard,
-        playerShips,
-        computerShips
+        playBoards,
+        moveBoards,
+        ships
     }
 }
 
