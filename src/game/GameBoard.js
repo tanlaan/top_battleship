@@ -1,10 +1,10 @@
 import Ship from './Ship'
 
 const GameBoard = () =>{
-    const playBoards = [{}, {}]
-    const moveBoards = [initBoard(), initBoard()]
-    const ships =[[], []]
-    const placeShip = (player, length, coordinate, orientation='H') => {
+    const playBoard = initBoard()
+    const moveBoard = initBoard() 
+    const ships = []
+    const placeShip = (length, coordinate, orientation='H') => {
         const [x, y] = coordinate.split('')
         const newShip = Ship(length)
         const positions = {}
@@ -28,54 +28,47 @@ const GameBoard = () =>{
         }
         
         // Verify no overlapping plays
-        if (!isValidPlay(positions, playBoards[player])) return false 
+        if (!isValidPlay(positions, playBoard)) return false 
 
         // Integrate new ship positions into playBoard
-        Object.assign(playBoards[player], positions)
+        const coordinates = Object.keys(positions)
+        for (let i = 0; i < coordinates.length; i++ ) {
+            let [x, y] = coordinateToIntegers(coordinates[i])
+            playBoard[x][y] = positions[coordinates[i]]
+        }
         
         // Add ship to player's ship list
-        ships[player].push(newShip)
+        ships.push(newShip)
 
         // Success!
         return true
     }
     
-    const receiveAttack = (player, coordinate) => {
+    const receiveAttack = (coordinate) => {
+        // Returns true if hit, false if miss
         const hit = 'X'
         const miss = '/'
-        const opponent = player === 0 ? 1 : 0
         const [x, y] = coordinateToIntegers(coordinate)
-        
-
-        // Check moveBoard if already played - return false
-        if (coordinate in moveBoards[player]) return false
 
         // Check opponents playBoard for hit
-        if (coordinate in playBoards[opponent]) {
-
-            // Run hit() on opponent's ship
-            playBoards[opponent][coordinate]()
-
-            // Adding hit to moveBoard
-            moveBoards[player][x][y] = hit
+        if(typeof playBoard[x][y] !== 'undefined') {
+            playBoard[x][y]()
+            playBoard[x][y] = hit
+            return true
         } else {
-            moveBoards[player][x][y] = miss
+            playBoard[x][y] = miss
+            return false
         }
-
-        return true
     }
 
-    const isWinner = () => {
-        for (let i = 0; i < ships.length; i++) {
-            let allSunk = true
-            for (let j = 0; j < ships[i].length; j++ ) {
-                if (!ships[i][j].isSunk()) {
-                    allSunk = false
-                }
+    const isLoser = () => {
+        let allSunk = true
+        for (let i = 0; i < ships.length; i++ ) {
+            if (!ships[i].isSunk()) {
+                allSunk = false
             }
-            if (allSunk) return true
         }
-        return false
+        return allSunk 
     }
 
     const isValidMove = (x, y, length) => {
@@ -88,9 +81,15 @@ const GameBoard = () =>{
     }
 
     const isValidPlay= (positions, playBoard) => {
+        // positions is still an object
+        // now we need to convert playboard into
+        // an array so we can keep track of our
+        // opponent's hits and misses
+
         let keys = Object.keys(positions)
         for (let i = 0; i < keys.length; i++) {
-            if (keys[i] in playBoard) return false
+            let [x, y] = coordinateToIntegers(keys[i])
+            if (typeof playBoard[x][y] !== 'undefined') return false
         }
         return true
     }
@@ -104,11 +103,11 @@ const GameBoard = () =>{
     }
     
     return {
-        isWinner,
+        isLoser,
         receiveAttack,
         placeShip,
-        playBoards,
-        moveBoards,
+        playBoard,
+        moveBoard,
         ships
     }
 }
