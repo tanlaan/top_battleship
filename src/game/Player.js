@@ -1,3 +1,4 @@
+import coordinateToIntegers from './coordinates'
 
 const Player = (myBoard, enemyBoard, computer=false) => {
     const attack = (coordinate) => {
@@ -10,8 +11,7 @@ const Player = (myBoard, enemyBoard, computer=false) => {
         }
         
 
-        let [x, y] = coordinate.split('')
-        x = x.charCodeAt(0) - 'A'.charCodeAt(0)
+        let [x, y] = coordinateToIntegers(coordinate)
         
         if (typeof myBoard.moveBoard[x][y] !== 'undefined') {
             return false

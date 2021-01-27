@@ -1,11 +1,12 @@
 import Ship from './Ship'
+import coordinateToIntegers from './coordinates'
 
 const GameBoard = () =>{
     const playBoard = initBoard()
     const moveBoard = initBoard() 
     const ships = []
     const placeShip = (length, coordinate, orientation='H') => {
-        const [x, y] = coordinate.split('')
+        const [x, y] = coordinateToIntegers(coordinate)
         const newShip = Ship(length)
         const positions = {}
 
@@ -17,23 +18,20 @@ const GameBoard = () =>{
             if (orientation === 'V') {
 
                 // We are 'increasing' Vertically
-                positions[x + (Number(y) + i)] = () => newShip.hit(i)
+                positions[x + ','  + (y + i)] = () => newShip.hit(i)
             } else {
 
                 // We are 'increasing' horizontally
-                // So coerce a new letter
-                const newX = String.fromCharCode(x.charCodeAt(0) + i )
-                positions[newX + y] = () => newShip.hit(i)
+                positions[(x + i) + ',' + y] = () => newShip.hit(i)
             }
         }
-        
         // Verify no overlapping plays
         if (!isValidPlay(positions, playBoard)) return false 
 
         // Integrate new ship positions into playBoard
         const coordinates = Object.keys(positions)
         for (let i = 0; i < coordinates.length; i++ ) {
-            let [x, y] = coordinateToIntegers(coordinates[i])
+            let [x, y] = coordinates[i].split(',')
             playBoard[x][y] = positions[coordinates[i]]
         }
         
@@ -73,10 +71,10 @@ const GameBoard = () =>{
 
     const isValidMove = (x, y, length) => {
         // Check coordinate out of bounds
-        const xBoundary = String.fromCharCode('J'.charCodeAt(0) - length)
+        const xBoundary = 10 - length
         const yBoundary = 10 - length
-        if (x < 'A' || x > xBoundary) return false
-        if (y < 1 || y > yBoundary) return false
+        if (x < 0 || x > xBoundary) return false
+        if (y < 0 || y > yBoundary) return false
         return true
     }
 
@@ -88,18 +86,10 @@ const GameBoard = () =>{
 
         let keys = Object.keys(positions)
         for (let i = 0; i < keys.length; i++) {
-            let [x, y] = coordinateToIntegers(keys[i])
+            let [x, y] = keys[i].split(',')
             if (typeof playBoard[x][y] !== 'undefined') return false
         }
         return true
-    }
-
-    const coordinateToIntegers = (coordinate) => {
-        // Take in string form, convert to array integers
-        let [x, y] = coordinate.split('')
-        x = x.charCodeAt(0) - 'A'.charCodeAt(0)
-        y = Number(y) - 1
-        return [x, y]
     }
     
     return {
