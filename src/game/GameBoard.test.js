@@ -29,21 +29,10 @@ test('moveBoards will be initialized with 10 rows', () => {
     expect(board.moveBoard[0].length).toBe(10)
 })
 
-test('There should be a location to place the ships associated with a player and computer', () => {
-    const board = GameBoard()
-    expect(board.ships).toBeDefined()
-})
-
 test('Gameboard can place a ship onto a playboard', () => {
     const board = GameBoard()
     board.placeShip(3, 'A1')
     expect(board.playBoard[0][0]).toBeDefined()
-})
-
-test('Placing a ship on a playBoard adds it to the ships array', () => {
-    const board = GameBoard()
-    board.placeShip(3, 'A1')
-    expect(board.ships[0]).toBeDefined()
 })
 
 test("Placing a ship on a playBoard adds more than just the initial coordinate", () => {

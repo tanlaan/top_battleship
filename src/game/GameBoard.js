@@ -108,7 +108,6 @@ const GameBoard = () =>{
         placeShip,
         playBoard,
         moveBoard,
-        ships
     }
 }
 
