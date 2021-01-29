@@ -38,7 +38,6 @@ test('Gameboard can place a ship onto a playboard', () => {
 test("Placing a ship on a playBoard adds more than just the initial coordinate", () => {
     const board = GameBoard()
     board.placeShip(3, 'A1')
-    console.log(board.playBoard[1])
     expect(board.playBoard[1][0]).toBeDefined()
 })
 

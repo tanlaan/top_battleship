@@ -1,24 +1,40 @@
-import coordinateToIntegers from './coordinates'
+import coordinateToIntegers, {integersToCoordinate} from './coordinates'
 
 const Player = (myBoard, enemyBoard, computer=false) => {
+    const getRandomInt = (max) => {
+        return Math.floor(Math.random() * Math.floor(max))
+    }
     const attack = (coordinate) => {
-        // Check my move board to not double attack
-        //  if already tried return false
-        // Attack enemy and receive hit or miss
-        // Write to move board with 'X' or '/'
-        //return true
+        let x
+        let y
+
         if (computer) {
+
+            // Until we find a new move, keep trying
+            let goodMove = false
+            while (!goodMove) {
+                x = getRandomInt(10)
+                y = getRandomInt(10)
+                if (typeof myBoard.moveBoard[x][y] === 'undefined') {
+                    goodMove = true
+                }
+            }
+            
+            // We found a new move
+            coordinate = integersToCoordinate(x, y)
+        } else {
+            [x, y] = coordinateToIntegers(coordinate)
+            
+            // Player tried to attack the same place twice
+            if (typeof myBoard.moveBoard[x][y] !== 'undefined') {
+                return false
+            }
         }
         
-
-        let [x, y] = coordinateToIntegers(coordinate)
-        
-        if (typeof myBoard.moveBoard[x][y] !== 'undefined') {
-            return false
-        }
-
         const hit = 'X'
         const miss = '/'
+
+        // Tell enemyBoard about our attack
         const hitStatus = enemyBoard.receiveAttack(coordinate)
 
         myBoard.moveBoard[x][y] = hitStatus ? hit : miss

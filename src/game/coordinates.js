@@ -6,4 +6,9 @@ const coordinateToIntegers = (coordinate) => {
     return [x, y]
 }
 
+export const integersToCoordinate = (x, y) => {
+    const a = String.fromCharCode('A'.charCodeAt(0) + x)
+    return a + y
+}
+
 export default coordinateToIntegers
