@@ -83,3 +83,17 @@ test('isWinner return true if all ships sunk', () => {
     expect(board.isLoser()).toBeTruthy()
 
 })
+
+test('The factory function can take a GameBoard in order to return a copy', () => {
+    const board = GameBoard()
+    board.placeShip(1, 'A1')
+
+    // Manually set move to a miss statesd
+    board.moveBoard[0][1] = '/'
+    const fooBoard = GameBoard(board)
+
+    // Don't believe there is a valid way to test function equality here
+    expect(fooBoard.playBoard).toEqual(board.playBoard)
+    expect(fooBoard.moveBoard).toEqual(board.moveBoard)
+    expect(fooBoard.ships).toEqual(board.ships)
+})

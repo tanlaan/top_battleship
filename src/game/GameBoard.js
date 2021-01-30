@@ -1,10 +1,27 @@
 import Ship from './Ship'
 import coordinateToIntegers from './coordinates'
 
-const GameBoard = () =>{
+const GameBoard = (state) =>{
     const playBoard = initBoard()
-    const moveBoard = initBoard() 
+    const moveBoard = initBoard()
     const ships = []
+
+    if (state) {
+
+        // Copy play and move boards
+        for (let x = 0; x < playBoard.length; x++) {
+            for ( let y = 0; y < playBoard[0].length; y++) {
+                playBoard[x][y] = state.playBoard[x][y]
+                moveBoard[x][y] = state.moveBoard[x][y]
+            }
+        }
+
+        // Copy ships array
+        for (let i = 0; i < state.ships.length; i++) {
+            ships[i] = state.ships[i]
+        }
+    }
+
     const placeShip = (length, coordinate, orientation='H') => {
         const [x, y] = coordinateToIntegers(coordinate)
         const newShip = Ship(length)
@@ -98,6 +115,7 @@ const GameBoard = () =>{
         placeShip,
         playBoard,
         moveBoard,
+        ships
     }
 }
 
