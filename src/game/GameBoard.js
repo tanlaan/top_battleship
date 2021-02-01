@@ -1,5 +1,4 @@
 import Ship from './Ship'
-import coordinateToIntegers from './coordinates'
 
 const GameBoard = (state) =>{
     const playBoard = initBoard()
@@ -23,7 +22,7 @@ const GameBoard = (state) =>{
     }
 
     const placeShip = (length, coordinate, orientation='H') => {
-        const [x, y] = coordinateToIntegers(coordinate)
+        const [x, y] = coordinate.split(',')
         const newShip = Ship(length)
         const positions = {}
 
@@ -63,7 +62,7 @@ const GameBoard = (state) =>{
         // Returns true if hit, false if miss
         const hit = 'X'
         const miss = '/'
-        const [x, y] = coordinateToIntegers(coordinate)
+        const [x, y] = coordinate.split(',')
 
         // Check opponents playBoard for hit
         if(typeof playBoard[x][y] !== 'undefined') {

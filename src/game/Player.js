@@ -1,15 +1,22 @@
 import coordinateToIntegers, {integersToCoordinate} from './coordinates'
 
-const Player = (myBoard, enemyBoard, computer=false) => {
+const Player = () => {
     const getRandomInt = (max) => {
         return Math.floor(Math.random() * Math.floor(max))
     }
-    const attack = (coordinate) => {
+    const attack = (myBoard, enemyBoard, coordinate) => {
         let x
         let y
 
-        if (computer) {
-
+        if (coordinate) {
+            [x, y] = coordinate.split(',')
+            
+            // Player tried to attack the same place twice
+            console.log(myBoard)
+            if (typeof myBoard.moveBoard[x][y] !== 'undefined') {
+                return false
+            }
+        } else {
             // Until we find a new move, keep trying
             let goodMove = false
             while (!goodMove) {
@@ -21,14 +28,10 @@ const Player = (myBoard, enemyBoard, computer=false) => {
             }
             
             // We found a new move
-            coordinate = integersToCoordinate(x, y)
-        } else {
-            [x, y] = coordinateToIntegers(coordinate)
-            
-            // Player tried to attack the same place twice
-            if (typeof myBoard.moveBoard[x][y] !== 'undefined') {
-                return false
-            }
+            //
+            // Look more into this, it seems like I am polluting
+            // the global namespace here?
+            coordinate = x + ',' + y
         }
         
         const hit = 'X'

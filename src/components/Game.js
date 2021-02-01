@@ -2,17 +2,29 @@ import React, {useState} from 'react';
 import PlayBoard from './PlayBoard'
 import MoveBoard from './MoveBoard'
 import GameBoard from '../game/GameBoard'
+import Player from '../game/Player'
 
 const Game = () => {
-    const test = GameBoard()
-    test.placeShip(3, 'A1')
-    test.receiveAttack('A2')
-    const playerBoard = test
-    // const [playerBoard, setPlayerBoard] = useState(test)
+    const [gameover, setGameover] = useState(false)
+    const [winner, setWinner] = useState('')
+    const [playerBoard, setPlayerBoard] = useState(GameBoard())
+    const [computerBoard, setComputerBoard] = useState(GameBoard())
+    const human = Player()
+    const computer = Player()
+
+    const clickHandler = (coordinate) => {
+        const intPlayer = GameBoard(playerBoard)
+        const intComputer = GameBoard(computerBoard)
+        if(human.attack(intPlayer, intComputer, coordinate)) {
+            setPlayerBoard(intPlayer)
+            setComputerBoard(intComputer)
+        }
+    }
+
     return (
         <div>
-           <PlayBoard board={playerBoard} />
-           <MoveBoard board={playerBoard} /> 
+            <MoveBoard board={playerBoard} click={clickHandler}/> 
+            <PlayBoard board={playerBoard} />
         </div>
     );
 }

@@ -9,7 +9,12 @@ const BoardTable = (props) => {
                         <tr key={i}>
                             {x.map((y, j) => {
                                 return (
-                                    <td key={j}>
+                                    <td 
+                                        key={j} 
+                                        onClick={props.click 
+                                            ? (e) => { props.click(i + ',' + j) }
+                                            : ()=>{}}
+                                    >
                                         {typeof(y) === 'function' && '[*]'}
                                         {typeof(y) === 'undefined' && '[ ]'}
                                         {typeof(y) === 'string' && '[' + y + ']'}

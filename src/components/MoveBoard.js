@@ -5,7 +5,7 @@ const MoveBoard = (props) => {
     return (
         <div>
             <h3>Move Board:</h3>
-            <BoardTable board={props.board.moveBoard}/>
+            <BoardTable board={props.board.moveBoard} click={props.click}/>
         </div>
     );
 }
