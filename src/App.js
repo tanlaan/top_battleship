@@ -1,11 +1,16 @@
-import './App.css';
+import React from 'react';
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Game from './components/Game'
 
-function App() {
+const App = () => {
   return (
     <div>
-      <h1>Battleship</h1>
+      <Header />
+      <Game />
+      <Footer />
     </div>
-  )
+  );
 }
 
 export default App;

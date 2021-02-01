@@ -32,7 +32,7 @@ const GameBoard = (state) =>{
 
         // Calculate all the coordinates it will take up
         for ( let i = 0; i < length; i++ ) {
-            if (orientation === 'V') {
+            if (orientation === 'H') {
 
                 // We are 'increasing' Vertically
                 positions[x + ','  + (y + i)] = () => newShip.hit(i)
@@ -122,7 +122,7 @@ const GameBoard = (state) =>{
 const initBoard = () => {
     const newBoard = []
     for ( let i = 0; i < 10; i++) {
-        newBoard[i] = new Array(10)
+        newBoard[i] = new Array(10).fill()
     }
     return newBoard
 }
