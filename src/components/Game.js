@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PlayBoard from './PlayBoard'
 import MoveBoard from './MoveBoard'
 import GameBoard from '../game/GameBoard'
@@ -7,7 +7,12 @@ import Player from '../game/Player'
 const Game = () => {
     const [gameover, setGameover] = useState(false)
     const [winner, setWinner] = useState('')
-    const [playerBoard, setPlayerBoard] = useState(GameBoard())
+
+    const test = GameBoard()
+    test.placeShip(3, '0,0')
+    console.log(test.playBoard)
+
+    const [playerBoard, setPlayerBoard] = useState(test)
     const [computerBoard, setComputerBoard] = useState(GameBoard())
     const human = Player()
     const computer = Player()

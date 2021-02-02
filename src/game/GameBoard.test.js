@@ -31,45 +31,45 @@ test('moveBoards will be initialized with 10 rows', () => {
 
 test('Gameboard can place a ship onto a playboard', () => {
     const board = GameBoard()
-    board.placeShip(3, 'A1')
+    board.placeShip(3, '0,0')
     expect(board.playBoard[0][0]).toBeDefined()
 })
 
 test("Placing a ship on a playBoard adds more than just the initial coordinate", () => {
     const board = GameBoard()
-    board.placeShip(3, 'A1')
-    expect(board.playBoard[1][0]).toBeDefined()
+    board.placeShip(3, '0,0')
+    expect(board.playBoard[0][1]).toBeDefined()
 })
 
 test("Placing a ship on the playBoard works in the vertical orientation as well", () => {
     const board = GameBoard()
-    board.placeShip(3, 'A1', 'V')
-    expect(board.playBoard[0][1]).toBeDefined()
+    board.placeShip(3, '0,0', 'V')
+    expect(board.playBoard[1][0]).toBeDefined()
 })
 
 test("Placing a ship on the playBoard in an invalid location returns false", () => {
     const board = GameBoard()
-    let value = board.placeShip(3, 'K1', 'V')
+    let value = board.placeShip(3, '10,0', 'V')
     expect(value).toBeFalsy()
 })
 
 test('Placing a ship where it would overlap another returns false', () => {
     const board = GameBoard()
-    board.placeShip(3, 'A1')
-    let value = board.placeShip(3, 'A1')
+    board.placeShip(3, '0,0')
+    let value = board.placeShip(3, '0,0')
     expect(value).toBeFalsy()
 })
 
 test('receiveAttack records a miss to the playBoard if miss', () => {
     const board = GameBoard()
-    const coordinate = 'A1'
+    const coordinate = '0,0'
     board.receiveAttack( coordinate )
     expect(board.playBoard[0][0]).toBe('/')
 })
 
 test('recieveAttack works if a hit should take place', () => {
     const myBoard = GameBoard()
-    const coordinate = 'A1'
+    const coordinate = '0,0'
     myBoard.placeShip(3, coordinate)
     myBoard.receiveAttack(coordinate)
     expect(myBoard.playBoard[0][0]).toBe('X')
@@ -77,7 +77,7 @@ test('recieveAttack works if a hit should take place', () => {
 
 test('isWinner return true if all ships sunk', () => {
     const board = GameBoard()
-    const coordinate = 'A1'
+    const coordinate = '0,0'
     board.placeShip( 1, coordinate)
     board.receiveAttack( coordinate)
     expect(board.isLoser()).toBeTruthy()
@@ -86,7 +86,7 @@ test('isWinner return true if all ships sunk', () => {
 
 test('The factory function can take a GameBoard in order to return a copy', () => {
     const board = GameBoard()
-    board.placeShip(1, 'A1')
+    board.placeShip(1, '0,0')
 
     // Manually set move to a miss statesd
     board.moveBoard[0][1] = '/'

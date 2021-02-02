@@ -5,15 +5,15 @@ test('Players can attack at a coordinate', () => {
     const myBoard = GameBoard()
     const enemyBoard = GameBoard()
     const human = Player()
-    expect(human.attack(myBoard, enemyBoard, 'A1')).toBeTruthy()
+    expect(human.attack(myBoard, enemyBoard, '0,0')).toBeTruthy()
 })
 
 test('Playing the same attack twice returns false', () => {
     const myBoard = GameBoard()
     const enemyBoard = GameBoard()
     const human = Player()
-    human.attack(myBoard, enemyBoard, 'A1')
-    expect(human.attack(myBoard, enemyBoard, 'A1')).toBeFalsy()
+    human.attack(myBoard, enemyBoard, '0,0')
+    expect(human.attack(myBoard, enemyBoard, '0,0')).toBeFalsy()
 })
 
 

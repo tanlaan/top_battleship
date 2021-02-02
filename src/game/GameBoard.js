@@ -1,4 +1,5 @@
 import Ship from './Ship'
+import coordinateToIntegers from './coordinates'
 
 const GameBoard = (state) =>{
     const playBoard = initBoard()
@@ -22,13 +23,12 @@ const GameBoard = (state) =>{
     }
 
     const placeShip = (length, coordinate, orientation='H') => {
-        const [x, y] = coordinate.split(',')
+        const [x, y] = coordinateToIntegers(coordinate)
         const newShip = Ship(length)
         const positions = {}
 
         // Is our entire ship on the game board?
         if (!isValidMove(x, y, length)) return false
-
         // Calculate all the coordinates it will take up
         for ( let i = 0; i < length; i++ ) {
             if (orientation === 'H') {
@@ -47,7 +47,7 @@ const GameBoard = (state) =>{
         // Integrate new ship positions into playBoard
         const coordinates = Object.keys(positions)
         for (let i = 0; i < coordinates.length; i++ ) {
-            let [x, y] = coordinates[i].split(',')
+            let [x, y] = coordinateToIntegers(coordinates[i])
             playBoard[x][y] = positions[coordinates[i]]
         }
         
@@ -62,7 +62,7 @@ const GameBoard = (state) =>{
         // Returns true if hit, false if miss
         const hit = 'X'
         const miss = '/'
-        const [x, y] = coordinate.split(',')
+        const [x, y] = coordinateToIntegers(coordinate)
 
         // Check opponents playBoard for hit
         if(typeof playBoard[x][y] !== 'undefined') {
@@ -99,10 +99,9 @@ const GameBoard = (state) =>{
         // now we need to convert playboard into
         // an array so we can keep track of our
         // opponent's hits and misses
-
         let keys = Object.keys(positions)
         for (let i = 0; i < keys.length; i++) {
-            let [x, y] = keys[i].split(',')
+            let [x, y] = coordinateToIntegers(keys[i])
             if (typeof playBoard[x][y] !== 'undefined') return false
         }
         return true

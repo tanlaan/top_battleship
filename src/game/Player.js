@@ -1,5 +1,3 @@
-import coordinateToIntegers, {integersToCoordinate} from './coordinates'
-
 const Player = () => {
     const getRandomInt = (max) => {
         return Math.floor(Math.random() * Math.floor(max))
@@ -12,7 +10,6 @@ const Player = () => {
             [x, y] = coordinate.split(',')
             
             // Player tried to attack the same place twice
-            console.log(myBoard)
             if (typeof myBoard.moveBoard[x][y] !== 'undefined') {
                 return false
             }
