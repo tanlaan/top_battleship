@@ -13,6 +13,7 @@ const App = () => {
         winner={winner}
       />
       <Game 
+        gameover={gameover}
         setGameover={setGameover}
         setWinner={setWinner}
       />

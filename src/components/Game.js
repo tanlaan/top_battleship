@@ -4,7 +4,7 @@ import MoveBoard from './MoveBoard'
 import GameBoard from '../game/GameBoard'
 import Player from '../game/Player'
 
-const Game = ({setGameover, setWinner}) => {
+const Game = ({gameover, setGameover, setWinner}) => {
     // Placeholder:
     // Fixed ship locations
     const foo = GameBoard()
@@ -17,6 +17,7 @@ const Game = ({setGameover, setWinner}) => {
     const [computerBoard, setComputerBoard] = useState(bar)
     const human = Player()
     const computer = Player()
+    const [playerTurn, setPlayerTurn] = useState(true)
 
     const clickHandler = (coordinate) => {
         const intPlayer = GameBoard(playerBoard)
@@ -24,10 +25,12 @@ const Game = ({setGameover, setWinner}) => {
         if(human.attack(intPlayer, intComputer, coordinate)) {
             setPlayerBoard(intPlayer)
             setComputerBoard(intComputer)
+            setPlayerTurn(false)
         }
     }
 
     useEffect(() => {
+        // Update winner state after each move
         if(playerBoard.isLoser()){
             setGameover(true)
             setWinner('Computer')
@@ -37,6 +40,18 @@ const Game = ({setGameover, setWinner}) => {
         }
     }, [playerBoard, computerBoard, setGameover, setWinner]);
 
+    useEffect(() => {
+        // Computer's turn
+        if(!playerTurn && !gameover) {
+            const intPlayer = GameBoard(playerBoard)
+            const intComputer = GameBoard(computerBoard)
+            computer.attack(intComputer, intPlayer)
+            setComputerBoard(intComputer)
+            setPlayerBoard(intPlayer)
+            setPlayerTurn(true)
+        }
+    }, [computer, gameover, playerBoard, computerBoard, playerTurn, setPlayerTurn])
+    
     return (
         <div>
             <MoveBoard board={playerBoard} click={clickHandler}/> 
