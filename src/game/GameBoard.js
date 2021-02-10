@@ -60,10 +60,18 @@ const GameBoard = (state) =>{
 
     const placeShipRandomly = (length, orientation) => {
         let wasPlayed = false
+        if (!orientation) {
+            let chance = getRandomInt(2)
+            if (chance === 0) {
+                orientation = 'H'
+            } else {
+                orientation = 'V'
+            }
+        }
         while (!wasPlayed) {
             const x = getRandomInt(10)
             const y = getRandomInt(10)
-            wasPlayed = placeShip(length, '', orientation)
+            wasPlayed = placeShip(length, x+','+y, orientation)
         }
         return true
     }
