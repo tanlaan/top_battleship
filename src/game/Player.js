@@ -1,7 +1,5 @@
+import {getRandomInt} from './coordinates'
 const Player = () => {
-    const getRandomInt = (max) => {
-        return Math.floor(Math.random() * Math.floor(max))
-    }
     const attack = (myBoard, enemyBoard, coordinate) => {
         let x
         let y
