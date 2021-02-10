@@ -110,3 +110,9 @@ test('The factory function can take a GameBoard in order to return a copy', () =
     expect(fooBoard.moveBoard).toEqual(board.moveBoard)
     expect(fooBoard.ships).toEqual(board.ships)
 })
+
+test('A randomly placed ship is successfully put into ships array', () => {
+    const board = GameBoard()
+    board.placeShipRandomly(3, 'H')
+    expect(board.ships.length).toBeGreaterThan(0)
+})

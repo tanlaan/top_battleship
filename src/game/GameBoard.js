@@ -1,5 +1,5 @@
 import Ship from './Ship'
-import coordinateToIntegers from './coordinates'
+import coordinateToIntegers, {getRandomInt} from './coordinates'
 
 const GameBoard = (state) =>{
     const playBoard = initBoard()
@@ -23,7 +23,7 @@ const GameBoard = (state) =>{
     }
 
     const placeShip = (length, coordinate, orientation='H') => {
-        const [x, y] = coordinateToIntegers(coordinate)
+        const [x, y] = coordinateToIntegers(coordinate)  
         const newShip = Ship(length)
         const positions = {}
 
@@ -55,6 +55,16 @@ const GameBoard = (state) =>{
         ships.push(newShip)
 
         // Success!
+        return true
+    }
+
+    const placeShipRandomly = (length, orientation) => {
+        let wasPlayed = false
+        while (!wasPlayed) {
+            const x = getRandomInt(10)
+            const y = getRandomInt(10)
+            wasPlayed = placeShip(length, '', orientation)
+        }
         return true
     }
     
@@ -118,6 +128,7 @@ const GameBoard = (state) =>{
         isLoser,
         receiveAttack,
         placeShip,
+        placeShipRandomly,
         playBoard,
         moveBoard,
         ships
