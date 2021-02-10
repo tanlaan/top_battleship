@@ -28,7 +28,7 @@ const GameBoard = (state) =>{
         const positions = {}
 
         // Is our entire ship on the game board?
-        if (!isValidMove(x, y, length)) return false
+        if (!isValidMove(x, y, length, orientation)) return false
         // Calculate all the coordinates it will take up
         for ( let i = 0; i < length; i++ ) {
             if (orientation === 'H') {
@@ -85,10 +85,17 @@ const GameBoard = (state) =>{
         return allSunk 
     }
 
-    const isValidMove = (x, y, length) => {
+    const isValidMove = (x, y, length, orientation) => {
         // Check coordinate out of bounds
-        const xBoundary = 10 - length
-        const yBoundary = 10 - length
+        let xBoundary
+        let yBoundary
+        if (orientation === 'H') {
+            xBoundary = 10
+            yBoundary = 10 - length
+        } else {
+            xBoundary = 10 - length
+            yBoundary = 10
+        }
         if (x < 0 || x > xBoundary) return false
         if (y < 0 || y > yBoundary) return false
         return true

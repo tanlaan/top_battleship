@@ -47,11 +47,24 @@ test("Placing a ship on the playBoard works in the vertical orientation as well"
     expect(board.playBoard[1][0]).toBeDefined()
 })
 
-test("Placing a ship on the playBoard in an invalid location returns false", () => {
+test("Placing a ship outside of the playBoard returns false", () => {
     const board = GameBoard()
     let value = board.placeShip(3, '10,0', 'V')
     expect(value).toBeFalsy()
 })
+
+test('Placing a ship horizontally that will lead off edge returns false', () => {
+    const board = GameBoard()
+    let value = board.placeShip(3, '0,9', 'H')
+    expect(value).toBeFalsy()
+})
+
+test('Placing a ship vertically that will lead off edge returns false', () => {
+    const board = GameBoard()
+    let value = board.placeShip(3, '9,0', 'V')
+    expect(value).toBeFalsy()
+})
+
 
 test('Placing a ship where it would overlap another returns false', () => {
     const board = GameBoard()
