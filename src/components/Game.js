@@ -5,16 +5,19 @@ import GameBoard from '../game/GameBoard'
 import Player from '../game/Player'
 
 const Game = ({gameover, setGameover, setWinner}) => {
-    // Placeholder:
-    // Fixed ship locations
-    const foo = GameBoard()
-    foo.placeShip(3, '0,0')
+    // Randomized Boards
+    const initGameBoard = () => {
+        const board = GameBoard()
+        board.placeShipRandomly(5)
+        board.placeShipRandomly(4)
+        board.placeShipRandomly(3)
+        board.placeShipRandomly(3)
+        board.placeShipRandomly(2)
+        return board
+    }
 
-    const bar = GameBoard()
-    bar.placeShip(3, '0,0')
-    // --------------------
-    const [playerBoard, setPlayerBoard] = useState(foo)
-    const [computerBoard, setComputerBoard] = useState(bar)
+    const [playerBoard, setPlayerBoard] = useState(initGameBoard())
+    const [computerBoard, setComputerBoard] = useState(initGameBoard())
     const human = Player()
     const computer = Player()
     const [playerTurn, setPlayerTurn] = useState(true)
