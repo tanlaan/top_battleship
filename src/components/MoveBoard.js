@@ -3,7 +3,7 @@ import BoardTable from './BoardTable';
 
 const MoveBoard = (props) => {
     return (
-        <div>
+        <div className='moveBoard'>
             <h3>Move Board:</h3>
             <BoardTable board={props.board.moveBoard} click={props.click}/>
         </div>

@@ -5,6 +5,10 @@ td {
   height: 20px;
 }
 
+.moveBoard > table > tbody > tr >td:hover {
+  background-color: yellow;
+}
+
 .hit {
   background-color: red;
 }
