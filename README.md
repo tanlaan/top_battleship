@@ -1,6 +1,9 @@
 # Battleship - The Game
 ## Made by Chris Bolas
 
+### Try it out
+[Play here](https://tanlaan.github.io/top_battleship/)
+
 ### How to Play
 
 The board will be populated with your pieces randomly within the Play Board. 
