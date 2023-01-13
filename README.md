@@ -19,4 +19,4 @@ or they sink yours!
 
 ### Constraints
 
-This game was made in accordance with the constraings found [here](https://www.theodinproject.com/courses/javascript/lessons/battleship)
+This game was made in accordance with the constraints found [here](https://www.theodinproject.com/courses/javascript/lessons/battleship)
